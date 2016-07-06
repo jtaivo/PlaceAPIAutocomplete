@@ -1,12 +1,16 @@
 package com.truiton.placeapiautocomplete;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +23,9 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -35,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements
     private TextView mAttTextView;
     private GoogleApiClient mGoogleApiClient;
     private PlaceArrayAdapter mPlaceArrayAdapter;
-    private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
+    private final int REQ_CODE_SPEECH_INPUT = 100;
+    private Button btnSpeak;
+    private static final LatLngBounds BOUNDS_PLACE = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
 
     @Override
@@ -49,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
         mAutocompleteTextView = (AutoCompleteTextView) findViewById(R.id
                 .autoCompleteTextView);
-        mAutocompleteTextView.setThreshold(3);
+        mAutocompleteTextView.setThreshold(5);
         mNameTextView = (TextView) findViewById(R.id.name);
         mAddressTextView = (TextView) findViewById(R.id.address);
         mIdTextView = (TextView) findViewById(R.id.place_id);
@@ -58,8 +67,15 @@ public class MainActivity extends AppCompatActivity implements
         mAttTextView = (TextView) findViewById(R.id.att);
         mAutocompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
         mPlaceArrayAdapter = new PlaceArrayAdapter(this, android.R.layout.simple_list_item_1,
-                BOUNDS_MOUNTAIN_VIEW, null);
+                BOUNDS_PLACE, null);
         mAutocompleteTextView.setAdapter(mPlaceArrayAdapter);
+        btnSpeak = (Button) findViewById(R.id.btn_speak);
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                promptSpeechInput();
+            }
+        });
     }
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -122,5 +138,47 @@ public class MainActivity extends AppCompatActivity implements
     public void onConnectionSuspended(int i) {
         mPlaceArrayAdapter.setGoogleApiClient(null);
         Log.e(LOG_TAG, "Google Places API connection suspended.");
+    }
+
+    /**
+     * Showing google speech input dialog
+     * */
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "Speech PROMPT");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    "Speech no soportado",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Receiving speech input
+     * */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("OKRESULT", "OK");
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    Toast.makeText(this,result.get(0),Toast.LENGTH_SHORT);
+                    mAutocompleteTextView.setText(result.get(0));
+                    //txtSpeechInput.setText(result.get(0));
+                }
+                break;
+            }
+
+        }
     }
 }

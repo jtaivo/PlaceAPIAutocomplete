@@ -12,9 +12,10 @@
         android:id="@+id/autoCompleteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:hint="Enter Place Here"/>
+        android:hint="Enter Place Here"
+        android:layout_toLeftOf="@+id/btn_speak"
+        android:layout_toStartOf="@+id/btn_speak" />
 
     <TextView
         android:id="@+id/header"
@@ -24,7 +25,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/autoCompleteTextView"
         android:layout_marginTop="20dp"
-        android:text="Selected Place:"
+        android:text="Lugar seleccionado:"
         android:textStyle="bold"/>
 
     <TextView
@@ -88,14 +89,14 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/powered_by_google_light"/>
 
-    <ImageView
-        android:id="@+id/truiton_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_above="@+id/poweredBy"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="-20dp"
-        android:src="@mipmap/truiton_short_no_back"/>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hablar"
+        android:id="@+id/btn_speak"
+        android:layout_alignBottom="@+id/autoCompleteTextView"
+        android:layout_alignRight="@+id/poweredBy"
+        android:layout_alignEnd="@+id/poweredBy" />
 
 </RelativeLayout>
