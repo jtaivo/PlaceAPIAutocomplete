@@ -41,6 +41,7 @@ public class PlaceArrayAdapter
         super(context, resource);
         mBounds = bounds;
         mPlaceFilter = filter;
+        mResultList = new ArrayList<>();
     }
 
     public void setGoogleApiClient(GoogleApiClient googleApiClient) {
@@ -92,6 +93,7 @@ public class PlaceArrayAdapter
             }
             // Buffer release
             autocompletePredictions.release();
+            Log.e("RESULTS", resultList.size()+"");
             return resultList;
         }
         Log.e(TAG, "Google API client is not connected.");

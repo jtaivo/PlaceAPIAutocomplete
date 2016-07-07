@@ -8,95 +8,41 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context=".MainActivity">
 
-    <AutoCompleteTextView
+    <EditText
         android:id="@+id/autoCompleteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:hint="Enter Place Here"
+        android:hint="Ingresa lugar o dirección"
         android:layout_toLeftOf="@+id/btn_speak"
         android:layout_toStartOf="@+id/btn_speak" />
-
-    <TextView
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/autoCompleteTextView"
-        android:layout_marginTop="20dp"
-        android:text="Lugar seleccionado:"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/header"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/name"/>
-
-    <TextView
-        android:id="@+id/place_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/address"/>
-
-    <TextView
-        android:id="@+id/phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/place_id"
-        android:autoLink="phone"/>
-
-    <TextView
-        android:id="@+id/web"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/phone"
-        android:autoLink="web"/>
-
-    <TextView
-        android:id="@+id/att"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:autoLink="web"/>
 
     <ImageView
         android:id="@+id/poweredBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/att"
-        android:layout_alignParentEnd="true"
+        android:src="@drawable/powered_by_google_light"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/powered_by_google_light"/>
+        android:layout_alignParentEnd="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hablar"
         android:id="@+id/btn_speak"
-        android:layout_alignBottom="@+id/autoCompleteTextView"
         android:layout_alignRight="@+id/poweredBy"
-        android:layout_alignEnd="@+id/poweredBy" />
+        android:layout_alignEnd="@+id/poweredBy"
+        android:background="@drawable/ic_mic_black_36dp"
+        android:layout_alignBottom="@+id/autoCompleteTextView" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/poweredBy"
+        android:layout_below="@+id/autoCompleteTextView" />
 
 </RelativeLayout>
